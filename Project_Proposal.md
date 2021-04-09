@@ -10,11 +10,19 @@ For our final algorism, we will attempt to project the shortest route between tw
 
 4. **Timeline**
 April 12: set up MakeFile
+
 April 15: read the dataset into vectors and set up test cases to check the accuracy of the vector.
+
 April 20: convert vectors into graph format and pass simple tests.
+
 April 23: write DFS iterator and varify with test.
+
 April 30: write Dijikstra's algorism and varify with test. Write code for visual graph if necessary.
+
 May 5: write projection algorism and varify with test.
+
 May 8: finish report
+
 May 9: Meet to record final presentation
+
 May 11: Turn in project. 
