@@ -15,5 +15,5 @@
 3. **Conflict resolution** If disagreement arise between members, they will first commuciate with each other in attempt to reach an agreement. If an agreement could not be reached, a vote will be held either via discord or weekly meeting. If the vote yield no majority, the team will contact the mentor for final conflict resolution.
 
 ## Signature:
-I, Zixuan Wu(zixuanw8), agree to the terms of this contract.
+I, Zixuan Wu(zixuanw8), agree to the terms of this contract.\n
 I, Cole Herrmann(colewh2), agree to the terms of this contract.
