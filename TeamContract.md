@@ -16,3 +16,4 @@
 
 ## Signature:
 I, Zixuan Wu(zixuanw8), agree to the terms of this contract.
+I, Cole Herrmann(colewh2), agree to the terms of this contract.
