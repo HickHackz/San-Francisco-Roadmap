@@ -17,5 +17,7 @@ class graph {
         std::string file_to_string(const std::string & filename);
         std::vector<std::string> file_to_vector(const std::string & filename);
         graph(const std::string nodeInfo, const std::string edgeInfo);
+        std::vector<int> incidentEdges(int Vertex);
+        bool areAdjecent(int Vertex1; int Vertex2)
 
 }

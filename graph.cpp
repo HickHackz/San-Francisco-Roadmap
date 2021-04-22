@@ -81,3 +81,21 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
     }
 
 }
+std::vector<int> graph::incidentEdges(int Vertex) {
+    std::vector<int> result;
+    for (unsigned i = 0; i < edgeIDs.size(); i++) {
+        if (startNode[i] == Vertex || endNode[i] == Vertex) {
+            result.push_back(edgeIDs[i]);
+        }
+    }
+    return result;
+}
+bool graph::areAdjecent(int Vertex1; int Vertex2) {
+    std::vector<int> edges = incidentEdges(Vertex1);
+    for (int i : edges) {
+        if (startNode[i] == Vertex2 || endNode[i] == Vertex2) {
+            return true;
+        }
+    }
+    return false;
+}
