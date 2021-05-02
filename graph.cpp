@@ -90,7 +90,7 @@ std::vector<int> graph::incidentEdges(int Vertex) {
     }
     return result;
 }
-bool graph::areAdjecent(int Vertex1; int Vertex2) {
+bool graph::areAdjecent(int Vertex1, int Vertex2) {
     std::vector<int> edges = incidentEdges(Vertex1);
     for (int i : edges) {
         if (startNode[i] == Vertex2 || endNode[i] == Vertex2) {
@@ -99,3 +99,17 @@ bool graph::areAdjecent(int Vertex1; int Vertex2) {
     }
     return false;
 }
+
+std::vector<std::string> Graph::getVertices() const
+{
+ vector<std::string> vertices;
+
+ for(auto it = adjacency.begin(); it != adjacency.end(); it++)
+ {
+    vertices.push_back(it->first);
+ }
+
+ return vertices;
+}
+
+

@@ -1,5 +1,5 @@
 # Executable names:
-EXE = project  //rename to whatever we come up with
+EXE = project
 TEST = test
 
 # Add all object files needed for compiling:
