@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <graph.h>
+#include "edge.h"
+
 std::string graph::file_to_string(const std::string & filename) {
     std::ifstream text(filename);
 	
@@ -81,19 +83,19 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
     }
 
 }
-std::vector<int> graph::incidentEdges(int Vertex) {
+std::vector<int> graph::incidentEdges(int std::string) {
     std::vector<int> result;
     for (unsigned i = 0; i < edgeIDs.size(); i++) {
-        if (startNode[i] == Vertex || endNode[i] == Vertex) {
+        if (startNode[i] == std::string || endNode[i] == std::string) {
             result.push_back(edgeIDs[i]);
         }
     }
     return result;
 }
-bool graph::areAdjecent(int Vertex1, int Vertex2) {
-    std::vector<int> edges = incidentEdges(Vertex1);
+bool graph::areAdjecent(int std::string1, int std::string2) {
+    std::vector<int> edges = incidentEdges(std::string1);
     for (int i : edges) {
-        if (startNode[i] == Vertex2 || endNode[i] == Vertex2) {
+        if (startNode[i] == std::string2 || endNode[i] == std::string2) {
             return true;
         }
     }
@@ -112,4 +114,45 @@ std::vector<std::string> Graph::getVertices() const
  return vertices;
 }
 
+void graph::addVertex(std::string v)
+{
+    adjacency[v] = unordered_map<std::string, std::string>();
+}
 
+void graph::addEdge(std::string start, std::string end)
+{
+    if(adjacency.find(start) != adjacency.end() && adjacency[start].find(end)!= adjacency[start].end())
+    {
+        return;
+    }
+
+    if(adjacency.find(start) == adjacency.end())
+    {
+        adjacency[start] = unordered_map<std::string, std::string>();
+    }
+
+    adjacency[start][end] = edge(start, end);
+    if(adjacency.find(end)== adjacency.end())
+    {
+        adjacency[end] = unordered_map<std::string, std::string>();
+    }
+}
+
+edge graph::setEdgeWeightAndId(std::string start, std::string end, double weight, std::string id)
+{
+    edge e = adjacency[start][end];
+    edge ret(start, end, weight, id);
+    adjacency[start][end] = ret;
+    return ret;
+}
+
+double Graph::getEdgeWeight(std::string start, std::string end) const
+{
+    return adjacency[start][end].getWeight();
+}
+
+edge graph::getEdgeId(std::string start , std::string end) const
+{
+    Edge e = adjacency[source][destination].getId();
+    return e;
+}
