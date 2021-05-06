@@ -6,6 +6,76 @@
 #include <vector>
 #include "graph.h"
 #include "edge.h"
+graph::Iterator::Iterator() {
+} 
+graph::Iterator::Iterator(int s) {
+  /** @todo [Part 1] */
+  start = s;
+  current = start;
+  for (int i : nodeID) {
+      visited.push_back(false);
+  }
+  //add(start);
+  visited[start] = true;
+  bool extrpop = false;
+  nodeUsed.push(start);
+  //current = t->pop();
+}
+graph::Iterator & ImageTraversal::Iterator::operator++() {
+  /** @todo [Part 1] */
+  //t->add(current);
+  //visited[current.x][current.y] = true;
+  if (!nodeUsed.empty()) {
+    int origionalCurrent = current; //check for empty
+    if (!extrpop) {
+      origionalCurrent = nodeUsed.top();
+      nodeUsed.pop();
+    }
+    else {
+      extrpop = false;
+    }
+    current = origionalCurrent;
+    visited[origionalCurrent] = true;
+    for (int i : incidentEdges(origionalCurrent)) {
+        int node = 0;
+        if (startNode[i] != origionalCurrent) {
+            node = startNode[i];
+        }
+        else {
+            node = endNode[i];
+        }
+        if (!visited[node]) {
+            nodeUsed.push(node);
+        }
+    }
+  if (nodeUsed.empty() == false) {
+    current = nodeUsed.top();
+  }
+  while (visited[current] && !nodeUsed.empty()) {
+    current = nodeUsed.top();
+    nodeUsed.pop();
+    extrpop = true;
+  }
+  if (visited[current] && nodeUsed.empty()) {
+    current = origionalCurrent;
+  }
+  if (!visited[current] && !(current == origionalCurrent) && nodeUsed.empty()) {
+    nodeUsed.push(current);
+  }
+} 
+  return *this;
+}
+
+
+/**
+ * Iterator accessor opreator.
+ *
+ * Accesses the current Point in the ImageTraversal.
+ */
+int graph::Iterator::operator*() {
+  /** @todo [Part 1] */
+  return current;
+}
 
 std::string graph::file_to_string(const std::string & filename) {
     std::ifstream text(filename);
@@ -99,22 +169,24 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
             count += 1;
         } while (iss);
     }
-
-}
-
-std::vector<int> graph::incidentEdges(int std::string) {
-    std::vector<int> result;
-    for (unsigned i = 0; i < edgeIDs.size(); i++) {
-        if (startNode[i] == std::string || endNode[i] == std::string) {
-            result.push_back(edgeIDs[i]);
-        }
+    for (int i : nodeID) {
+        std::vector<int> a;
+        adjacencyList.push_back(a);
     }
-    return result;
+    for (int j : edgeIDs) {
+        adjacencyList[startNode[j]].push_back(j);
+        adjacencyList[endNode[j]].push_back(j);
+    }
+
 }
-bool graph::areAdjecent(int std::string1, int std::string2) {
-    std::vector<int> edges = incidentEdges(std::string1);
+
+std::vector<int> graph::incidentEdges(int c) {
+    return adjacencyList[c];
+}
+bool graph::areAdjecent(int c1, int c2) {
+    std::vector<int> edges = incidentEdges(c1);
     for (int i : edges) {
-        if (startNode[i] == std::string2 || endNode[i] == std::string2) {
+        if (startNode[i] == c2 || endNode[i] == c2) {
             return true;
         }
     }
