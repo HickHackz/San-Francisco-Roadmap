@@ -7,12 +7,14 @@
 #include "graph.h"
 #include "edge.h"
 graph::Iterator::Iterator() {
-} 
-graph::Iterator::Iterator(int s) {
+    g = NULL;
+}
+graph::Iterator::Iterator(int s, graph * graphUsed) {
   /** @todo [Part 1] */
   start = s;
   current = start;
-  for (int i : nodeID) {
+  g = graphUsed;
+  for (int i : g->nodeID) {
       visited.push_back(false);
   }
   //add(start);
@@ -36,13 +38,13 @@ graph::Iterator & ImageTraversal::Iterator::operator++() {
     }
     current = origionalCurrent;
     visited[origionalCurrent] = true;
-    for (int i : incidentEdges(origionalCurrent)) {
+    for (int i : g->incidentEdges(origionalCurrent)) {
         int node = 0;
-        if (startNode[i] != origionalCurrent) {
-            node = startNode[i];
+        if (g->startNode[i] != origionalCurrent) {
+            node = g->startNode[i];
         }
         else {
-            node = endNode[i];
+            node = g->endNode[i];
         }
         if (!visited[node]) {
             nodeUsed.push(node);
@@ -75,6 +77,15 @@ graph::Iterator & ImageTraversal::Iterator::operator++() {
 int graph::Iterator::operator*() {
   /** @todo [Part 1] */
   return current;
+}
+bool graph::Iterator::operator!=() {
+    if (g == NULL) {
+        return false;
+    }
+    if (nodeUsed.empty()) {
+        return false;
+    }
+    return true;
 }
 
 std::string graph::file_to_string(const std::string & filename) {

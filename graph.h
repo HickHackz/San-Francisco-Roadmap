@@ -6,6 +6,7 @@
 #include <vector>
 #include <stack>
 #include <unordered_map>
+#include <iterator>
 #include "edge.h"
 
 class graph {
@@ -34,11 +35,11 @@ class graph {
         class Iterator : std::iterator<std::forward_iterator_tag, int> {
             public:
             Iterator();
-            Iterator(int s);
+            Iterator(int s, graph * graphUsed);
 
             Iterator & operator++();
             int operator*();
-            bool operator!=(const Iterator &other);
+            bool operator!=(const graph::Iterator &other);
 
             /** @todo [Part 1] */
             /** add member functions if neccesary*/
@@ -51,5 +52,6 @@ class graph {
             std::vector<bool> visited;
             bool extrpop;
             std::stack<int> nodeUsed;
+            graph * g;
         };
 };
