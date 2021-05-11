@@ -182,17 +182,17 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
             }
             if (count % 4 == 1) {
                 double n = std::stod(&subs[0], &sz);
-                edgeLength.push_back(n);
+                startNode.push_back(n);
                //std::cout << n << std::endl;
             }
             if (count % 4 == 2) {
                 double n = std::stod(&subs[0], &sz);
-                startNode.push_back(n);
+                endNode.push_back(n);
                 //std::cout << n << std::endl;
 
                 iss >> subs;
                 n = std::stod(&subs[0], &sz);
-                endNode.push_back(n);
+                edgeLength.push_back(n);
                // std::cout << n << std::endl;
             }
             
