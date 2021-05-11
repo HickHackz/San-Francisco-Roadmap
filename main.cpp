@@ -1,7 +1,7 @@
 #include <iostream>
 #include "graph.h"
 #include "cs225/PNG.h"
-
+#include <string>
 using namespace std;
 
 int main()

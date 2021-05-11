@@ -94,7 +94,7 @@ int graph::Iterator::operator*() {
   /** @todo [Part 1] */
   return current;
 }
-bool graph::Iterator::operator!=() {
+bool graph::Iterator::operator!=(const graph::Iterator &other) {
     if (g == NULL) {
         return false;
     }
@@ -103,10 +103,10 @@ bool graph::Iterator::operator!=() {
     }
     return true;
 }
-Iterator graph::begin() {
+graph::Iterator graph::begin() {
     return Iterator(0, this);
 }
-Iterator graph::end() {
+graph::Iterator graph::end() {
     return Iterator();
 }
 std::string graph::file_to_string(const std::string & filename) {
@@ -208,7 +208,7 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
         adjacencyList[endNode[j]].push_back(j);
     }
 
-
+}
 std::vector<int> graph::incidentEdges(int c) {
     return adjacencyList[c];
 }
@@ -222,58 +222,58 @@ bool graph::areAdjecent(int c1, int c2) {
     return false;
 }
 
-std::vector<std::string> Graph::getVertices() const
-{
- vector<std::string> vertices;
+// std::vector<std::string> graph::getVertices() const
+// {
+//  std::vector<std::string> vertices;
 
- for(auto it = adjacency.begin(); it != adjacency.end(); it++)
- {
-    vertices.push_back(it->first);
- }
+//  for(auto it = adjacency.begin(); it != adjacency.end(); it++)
+//  {
+//     vertices.push_back(it->first);
+//  }
 
- return vertices;
-}
+//  return vertices;
+// }
 
-void graph::addVertex(std::string v)
-{
-    adjacency[v] = unordered_map<std::string, std::string>();
-}
+// void graph::addVertex(std::string v)
+// {
+//     adjacency[v] = unordered_map<std::string, std::string>();
+// }
 
-void graph::addEdge(std::string start, std::string end)
-{
-    if(adjacency.find(start) != adjacency.end() && adjacency[start].find(end)!= adjacency[start].end())
-    {
-        return;
-    }
+// void graph::addEdge(std::string start, std::string end)
+// {
+//     if(adjacency.find(start) != adjacency.end() && adjacency[start].find(end)!= adjacency[start].end())
+//     {
+//         return;
+//     }
 
-    if(adjacency.find(start) == adjacency.end())
-    {
-        adjacency[start] = unordered_map<std::string, std::string>();
-    }
+//     if(adjacency.find(start) == adjacency.end())
+//     {
+//         adjacency[start] = unordered_map<std::string, std::string>();
+//     }
 
-    adjacency[start][end] = edge(start, end);
-    if(adjacency.find(end)== adjacency.end())
-    {
-        adjacency[end] = unordered_map<std::string, std::string>();
-    }
-}
+//     adjacency[start][end] = edge(start, end);
+//     if(adjacency.find(end)== adjacency.end())
+//     {
+//         adjacency[end] = unordered_map<std::string, std::string>();
+//     }
+// }
 
-edge graph::setEdgeWeightAndId(std::string start, std::string end, double weight, std::string id)
-{
-    edge e = adjacency[start][end];
-    edge ret(start, end, weight, id);
-    adjacency[start][end] = ret;
-    return ret;
-}
+// edge graph::setEdgeWeightAndId(std::string start, std::string end, double weight, std::string id)
+// {
+//     edge e = adjacency[start][end];
+//     edge ret(start, end, weight, id);
+//     adjacency[start][end] = ret;
+//     return ret;
+// }
 
-double Graph::getEdgeWeight(std::string start, std::string end) const
-{
-    return adjacency[start][end].getWeight();
-}
+// double Graph::getEdgeWeight(std::string start, std::string end) const
+// {
+//     return adjacency[start][end].getWeight();
+// }
 
-edge graph::getEdgeId(std::string start , std::string end) const
-{
-    Edge e = adjacency[source][destination].getId();
-    return e;
-}
+// edge graph::getEdgeId(std::string start , std::string end) const
+// {
+//     Edge e = adjacency[source][destination].getId();
+//     return e;
+// }
 
