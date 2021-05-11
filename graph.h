@@ -11,6 +11,8 @@
 
 class graph {
     private:
+        
+    public:
         std::vector<int> nodeID;
         std::vector<double> xLocs;
         std::vector<double> yLocs;
@@ -19,7 +21,6 @@ class graph {
         std::vector<int> startNode;
         std::vector<int> endNode;
         std::vector<std::vector<int>> adjacencyList;
-    public:
         std::string file_to_string(const std::string & filename);
         std::vector<std::string> file_to_vector(const std::string & filename);
         graph(const std::string nodeInfo, const std::string edgeInfo);
