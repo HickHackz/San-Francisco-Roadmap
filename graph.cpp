@@ -17,13 +17,17 @@ graph::Iterator::Iterator(int s, graph * graphUsed) {
   for (int i : g->nodeID) {
       visited.push_back(false);
   }
+  for (int j : g->edgeIDs) {
+      exploredEdges.push_back(false);
+  }
   //add(start);
   visited[start] = true;
   bool extrpop = false;
   nodeUsed.push(start);
   //current = t->pop();
 }
-graph::Iterator & ImageTraversal::Iterator::operator++() {
+
+graph::Iterator & graph::Iterator::operator++() {
   /** @todo [Part 1] */
   //t->add(current);
   //visited[current.x][current.y] = true;
@@ -47,23 +51,34 @@ graph::Iterator & ImageTraversal::Iterator::operator++() {
             node = g->endNode[i];
         }
         if (!visited[node]) {
+            visited[node] = true;
             nodeUsed.push(node);
+            if (exploredEdges[i] == false) {
+                exploredEdges[i] = true;
+                discoveryEdges.push_back(i);
+            }
+        }
+        else {
+            if (exploredEdges[i] == false) {
+                exploredEdges[i] = true;
+                backEdges.push_back(i);
+            }
         }
     }
   if (nodeUsed.empty() == false) {
     current = nodeUsed.top();
   }
-  while (visited[current] && !nodeUsed.empty()) {
-    current = nodeUsed.top();
-    nodeUsed.pop();
-    extrpop = true;
-  }
-  if (visited[current] && nodeUsed.empty()) {
-    current = origionalCurrent;
-  }
-  if (!visited[current] && !(current == origionalCurrent) && nodeUsed.empty()) {
-    nodeUsed.push(current);
-  }
+//   while (visited[current] && !nodeUsed.empty()) {
+//     current = nodeUsed.top();
+//     nodeUsed.pop();
+//     extrpop = true;
+//   }
+//   if (visited[current] && nodeUsed.empty()) {
+//     current = origionalCurrent;
+//   }
+//   if (!visited[current] && !(current == origionalCurrent) && nodeUsed.empty()) {
+//     nodeUsed.push(current);
+//   }
 } 
   return *this;
 }
@@ -87,7 +102,12 @@ bool graph::Iterator::operator!=() {
     }
     return true;
 }
-
+Iterator graph::begin() {
+    return Iterator(0, this);
+}
+Iterator graph::end() {
+    return Iterator();
+}
 std::string graph::file_to_string(const std::string & filename) {
     std::ifstream text(filename);
 	
