@@ -43,6 +43,7 @@ class graph {
             bool operator!=(const graph::Iterator &other);
             std::vector<bool> exploredEdges;
             std::vector<int> discoveryEdges;
+            std::vector<int> backEdges;
             /** @todo [Part 1] */
             /** add member functions if neccesary*/
 
@@ -52,7 +53,6 @@ class graph {
             int start;
             int current;
             std::vector<bool> visited;
-            std::vector<int> backEdges;
             bool extrpop;
             std::stack<int> nodeUsed;
             graph * g;
