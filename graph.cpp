@@ -93,9 +93,7 @@ int graph::Iterator::operator*() {
   /** @todo [Part 1] */
   return current;
 }
-/**
-
-bool graph::Iterator::operator!=() {
+bool graph::Iterator::operator!=(const graph::Iterator &other) {
     if (g == NULL) {
         return false;
     }
@@ -104,8 +102,6 @@ bool graph::Iterator::operator!=() {
     }
     return true;
 }
- */
-
 graph::Iterator graph::begin() {
     return Iterator(0, this);
 }
@@ -231,17 +227,17 @@ std::vector<int> graph::getVertices() const
  return nodeID;
 }
 
-std::vector<int> graph::getAdjacent(int source) const 
+std::vector<int> graph::getAdjacentNodes(int source) const 
 {
     std::vector<int> node;
     for (int i : adjacencyList[source])
     {
-        if (startNode[i] == source)  
+        if (startNode[i] != source)  
         {
-            node.push_back(endNode[i]);
+            node.push_back(startNode[i]);
         }
         else {
-            node.push_back(startNode[i]);
+            node.push_back(endNode[i]);
         }
             
     }
@@ -256,6 +252,17 @@ double graph::getEdgeWeight(int source, int destination) const
             return edgeLength[i];
         }
         
+    }
+    return 0;
+}
+
+double graph::getEdge(int source, int destination) const
+{
+    std::vector<int> edges = incidentEdges(source);
+    for (int i : edges) {
+        if (startNode[i] == destination || endNode[i] == destination) {
+            return i;
+        }
     }
     return 0;
 }

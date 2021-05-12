@@ -11,6 +11,8 @@
 
 class graph {
     private:
+        
+    public:
         std::vector<int> nodeID;
         std::vector<double> xLocs;
         std::vector<double> yLocs;
@@ -19,7 +21,6 @@ class graph {
         std::vector<int> startNode;
         std::vector<int> endNode;
         std::vector<std::vector<int>> adjacencyList;
-    public:
         std::string file_to_string(const std::string & filename);
         std::vector<std::string> file_to_vector(const std::string & filename);
         graph(const std::string nodeInfo, const std::string edgeInfo);
@@ -27,7 +28,8 @@ class graph {
         bool areAdjecent(int Vertex1, int Vertex2);
         mutable std::unordered_map<std::string, std::unordered_map<std::string, std::string>> adjacency;
         std::vector<int> getVertices() const;
-        std::vector<int> getAdjacent(int source) const;
+        std::vector<int> getAdjacentNodes(int source) const;
+        double getEdge(int source, int destination) const;
         double getEdgeWeight(int source, int destination) const;
         class Iterator : std::iterator<std::forward_iterator_tag, int> {
             public:
@@ -39,6 +41,7 @@ class graph {
             bool operator!=(const graph::Iterator &other);
             std::vector<bool> exploredEdges;
             std::vector<int> discoveryEdges;
+            std::vector<int> backEdges;
             /** @todo [Part 1] */
             /** add member functions if neccesary*/
 
@@ -48,7 +51,6 @@ class graph {
             int start;
             int current;
             std::vector<bool> visited;
-            std::vector<int> backEdges;
             bool extrpop;
             std::stack<int> nodeUsed;
             graph * g;
