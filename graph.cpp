@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include "graph.h"
-#include "edge.h"
 graph::Iterator::Iterator() {
     g = NULL;
 }
@@ -94,6 +93,8 @@ int graph::Iterator::operator*() {
   /** @todo [Part 1] */
   return current;
 }
+/**
+
 bool graph::Iterator::operator!=() {
     if (g == NULL) {
         return false;
@@ -103,10 +104,12 @@ bool graph::Iterator::operator!=() {
     }
     return true;
 }
-Iterator graph::begin() {
+ */
+
+graph::Iterator graph::begin() {
     return Iterator(0, this);
 }
-Iterator graph::end() {
+graph::Iterator graph::end() {
     return Iterator();
 }
 std::string graph::file_to_string(const std::string & filename) {
@@ -207,11 +210,12 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
         adjacencyList[startNode[j]].push_back(j);
         adjacencyList[endNode[j]].push_back(j);
     }
+}
 
-
-std::vector<int> graph::incidentEdges(int c) {
+std::vector<int> graph::incidentEdges(int c) const {
     return adjacencyList[c];
 }
+
 bool graph::areAdjecent(int c1, int c2) {
     std::vector<int> edges = incidentEdges(c1);
     for (int i : edges) {
@@ -222,19 +226,36 @@ bool graph::areAdjecent(int c1, int c2) {
     return false;
 }
 
-std::vector<std::string> Graph::getVertices() const
+std::vector<int> graph::getVertices() const
 {
- vector<std::string> vertices;
-
- for(auto it = adjacency.begin(); it != adjacency.end(); it++)
- {
-    vertices.push_back(it->first);
- }
-
- return vertices;
+ return nodeID;
 }
 
-void graph::addVertex(std::string v)
+std::vector<int> graph::getAdjacent(int source) const 
 {
-    adjacency[v] = unordered_map<std::string, std::string>();
+    std::vector<int> node;
+    for (int i : adjacencyList[source])
+    {
+        if (startNode[i] == source)  
+        {
+            node.push_back(endNode[i]);
+        }
+        else {
+            node.push_back(startNode[i]);
+        }
+            
+    }
+    return node;
+}
+
+double graph::getEdgeWeight(int source, int destination) const
+{
+    for (int i : startNode) {
+        if (startNode[i] == source && endNode[i] == destination)
+        {
+            return edgeLength[i];
+        }
+        
+    }
+    return 0;
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -22,10 +23,12 @@ class graph {
         std::string file_to_string(const std::string & filename);
         std::vector<std::string> file_to_vector(const std::string & filename);
         graph(const std::string nodeInfo, const std::string edgeInfo);
-        std::vector<int> incidentEdges(int Vertex);
+        std::vector<int> incidentEdges(int Vertex) const;
         bool areAdjecent(int Vertex1, int Vertex2);
         mutable std::unordered_map<std::string, std::unordered_map<std::string, std::string>> adjacency;
-        std::vector<std::string> getVertices() const;
+        std::vector<int> getVertices() const;
+        std::vector<int> getAdjacent(int source) const;
+        double getEdgeWeight(int source, int destination) const;
         class Iterator : std::iterator<std::forward_iterator_tag, int> {
             public:
             Iterator();
