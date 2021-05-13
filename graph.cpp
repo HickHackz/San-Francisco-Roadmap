@@ -320,19 +320,19 @@ void graph::printGraph(double tolerance, bool withSol, int src, int dst) {
     for (unsigned l = 0; l < nodeID.size(); l++) { //plotting nodes
         cs225::HSLAPixel& pixel1 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]);
         setRed(pixel1);
-    if (l < lWidth - 1) {    
+        
         cs225::HSLAPixel& pixel2 = map.getPixel((unsigned int)xLocs[(size_t)l]+1, (unsigned int)yLocs[(size_t)l]);
-        setRed(pixel2);}
-    if (l < lHeight - 1){
+        setRed(pixel2);
+    
         cs225::HSLAPixel& pixel4 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]+1);
         setRed(pixel4);
-    }
-    if (l > 0) {
+    
+    
         cs225::HSLAPixel& pixel3 = map.getPixel((unsigned int)xLocs[(size_t)l]-1, (unsigned int)yLocs[(size_t)l]);
         setRed(pixel3);
         cs225::HSLAPixel& pixel5 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]-1);
         setRed(pixel5);
-    }
+    
     }
     std::cout << "Before path" << std::endl;
     if (withSol) { //printing desired route
