@@ -45,5 +45,7 @@ int main()
     std::cout << "The number of edges are " << SF.edgeIDs.size() << std::endl;
     std::cout << "The number of nodes are " << SF.nodeID.size() << std::endl;
     std::cout << "The number of back edges are " << I.backEdges.size() << std::endl;
+
+    SF.printGraph(10, true, 50, 1200);
     return 0;
 }
