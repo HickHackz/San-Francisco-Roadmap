@@ -1,0 +1,308 @@
+Didn't finish the custom iterator for graphical representation in time , but I wasn't satisfied with the the results so I made this code for the improved algorithim
+
+
+void setBlue(cs225::HSLAPixel &pixel)
+{
+    pixel.a = 1;
+    pixel.h = 235;
+    pixel.l = .5;
+    pixel.s = 1;
+    
+}
+void setRed(cs225::HSLAPixel &pixel)
+{
+    pixel.a = 1;
+    pixel.h = 0;
+    pixel.l = .5;
+    pixel.s = 1;
+}
+void setBlack(cs225::HSLAPixel &pixel)
+{
+    pixel.a = 1;
+    pixel.h = 0;
+    pixel.l = 0;
+    pixel.s = 0;
+}
+bool isValid(int x, int y, int j, int k, int h, int g){
+    if (x == 1 && y ==1) {
+        if (j < h && k < g) return true;}
+    if (x == -1 && y ==1) {
+        if (j > h && k < g) return true;}
+    if (x == 1 && y ==-1) {
+        if (j < h && k > g) return true;}
+    if (x == -1 && y ==-1) {
+        if (j > h && k > g) return true;  }
+    return false;
+
+}
+void graph::printGraph(double tolerance, bool withSol, int src, int dst)
+{
+
+    unsigned int sWidth = 10000;
+    unsigned int lWidth = 0;
+    unsigned int sHeight = 10000;
+    unsigned int lHeight = 0;
+    for (unsigned i = 0; i < xLocs.size(); i++)
+    { //finding max height and width
+        if (xLocs[i] > lWidth)
+            lWidth = (unsigned int)xLocs[i];
+        if (xLocs[i] < sWidth)
+            sWidth = (unsigned int)xLocs[i];
+        if (yLocs[i] > lHeight)
+            lHeight = (unsigned int)yLocs[i];
+        if (yLocs[i] < sHeight)
+            sHeight = (unsigned int)yLocs[i];
+    }
+    cs225::PNG map(lWidth, lHeight); //base PNG
+    for (unsigned i = 0; i < edgeIDs.size(); i++)
+    {
+        std::cout << i << std::endl;
+        double width = xLocs[endNode[i]] - xLocs[startNode[i]];
+        double height = yLocs[endNode[i]] - yLocs[startNode[i]]; //coordinates for sub plot to proccess edge
+        int xincrement, yincrement;
+        if (width < 0)
+            xincrement = -1;
+        else
+            xincrement = 1;
+        if (height < 0)
+            yincrement = -1;
+        else
+            yincrement = 1;
+        double slope = tan(height / width);
+        int h = xLocs[endNode[i]];
+        int g = yLocs[endNode[i]];
+        double j = xLocs[startNode[i]];
+        double k = yLocs[startNode[i]];
+        while (isValid(xincrement, yincrement, (unsigned int)j, (unsigned int)k, h, g)) {                              // (j < (unsigned int)xLocs[endNode[i]]) || (k + yincrement != (unsigned int)yLocs[endNode[i]])
+            if (xincrement == 1 && yincrement == 1)
+            {
+                if (abs(tan((k + 1 - yLocs[startNode[i]]) / (j - xLocs[startNode[i]])) - slope) <
+                    (abs(tan((k - yLocs[startNode[i]]) / (j + 1 - xLocs[startNode[i]])) - slope)))
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    k += 1;
+                }
+                else
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    
+                    j += 1;
+                }
+            }
+            if (xincrement == -1 && yincrement == 1)
+            {
+                if (abs(tan((k + 1 - yLocs[startNode[i]]) / (j - xLocs[startNode[i]])) - slope) <
+                    (abs(tan((k - yLocs[startNode[i]]) / (j - 1 - xLocs[startNode[i]])) - slope)))
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    k += 1;
+                }
+                else
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    j -= 1;
+                }
+            }
+            if (xincrement == 1 && yincrement == -1)
+            {
+                if (abs(tan((k - 1 - yLocs[startNode[i]]) / (j - xLocs[startNode[i]])) - slope) <
+                    (abs(tan((k - yLocs[startNode[i]]) / (j + 1 - xLocs[startNode[i]])) - slope)))
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    k -= 1;
+                }
+                else
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    j += 1;
+                }
+            }
+            if (xincrement == -1 && yincrement == -1)
+            {
+                if (abs(tan((k - 1 - yLocs[startNode[i]]) / (j - xLocs[startNode[i]])) - slope) <
+                    (abs(tan((k - yLocs[startNode[i]]) / (j - 1 - xLocs[startNode[i]])) - slope)))
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    k -= 1;
+                }
+                else
+                {
+                    cs225::HSLAPixel &pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)j + 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)j + 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)j - 1, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)j - 1, (unsigned int)k-1);
+                    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)j + 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)j - 1, (unsigned int)k);
+                    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)j, (unsigned int)k+1);
+                    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)j, (unsigned int)k-1);
+
+                    setBlack(pixel);
+                    setBlack(pixel2);
+                    setBlack(pixel3);
+                    setBlack(pixel4);
+                    setBlack(pixel5);
+                    setBlack(pixel6);
+                    setBlack(pixel7);
+                    setBlack(pixel8);
+                    setBlack(pixel9);
+                    j -= 1;
+                }
+        }
+    }
+    }
+
+
+
+for (unsigned l = 0; l < nodeID.size(); l++)
+{
+    cs225::HSLAPixel &pixel1 = map.getPixel((unsigned int)xLocs[(size_t)l]+1, (unsigned int)yLocs[(size_t)l]+1);
+    cs225::HSLAPixel &pixel2 = map.getPixel((unsigned int)xLocs[(size_t)l]+1, (unsigned int)yLocs[(size_t)l]-1);
+    cs225::HSLAPixel &pixel3 = map.getPixel((unsigned int)xLocs[(size_t)l]-1, (unsigned int)yLocs[(size_t)l]+1);
+    cs225::HSLAPixel &pixel4 = map.getPixel((unsigned int)xLocs[(size_t)l]-1, (unsigned int)yLocs[(size_t)l]-1);
+    cs225::HSLAPixel &pixel5 = map.getPixel((unsigned int)xLocs[(size_t)l]+1, (unsigned int)yLocs[(size_t)l]);
+    cs225::HSLAPixel &pixel6 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]+1);
+    cs225::HSLAPixel &pixel7 = map.getPixel((unsigned int)xLocs[(size_t)l]-1, (unsigned int)yLocs[(size_t)l]);
+    cs225::HSLAPixel &pixel8 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]-1);
+    cs225::HSLAPixel &pixel9 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]);
+    setRed(pixel1);
+    setRed(pixel2);
+    setRed(pixel3);
+    setRed(pixel4);
+    setRed(pixel5);
+    setRed(pixel6);
+    setRed(pixel7);
+    setRed(pixel8);
+    setRed(pixel9);
+}
+
+map.writeToFile("myMap.png");
+return;
+}
+
