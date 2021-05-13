@@ -16,7 +16,7 @@ TEST_CASE("adjanency", "[weight=3]") {
     graph SF("SF.cnode", "SF.cedge");
     REQUIRE(SF.adjacencyList[0][0] == 0);
     REQUIRE(SF.adjacencyList[0][1] == 1);
-    REQUIRE(SF.adjacencyList[0][1] == 2);
+    REQUIRE(SF.adjacencyList[0][2] == 2);
 }
 TEST_CASE("DFS traversal", "[weight=1]") {
     graph SF("SF.cnode", "SF.cedge");
@@ -32,7 +32,7 @@ TEST_CASE("DFS traversal", "[weight=1]") {
 TEST_CASE("Dikstra", "[weight=2]") {
     graph SF("SF.cnode", "SF.cedge");
     dijkstra Dijkstra;
-    vector<int> edges = Dijkstra.dijkstraPath(SF, 0, 6)
+    vector<int> edges = Dijkstra.dijkstraPath(SF, 0, 6);
     REQUIRE(edges[0] == 0);
     REQUIRE(edges[1] == 222877);
 }

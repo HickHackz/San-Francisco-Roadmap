@@ -1,4 +1,4 @@
-# Project Proposal
+# Result
 
 1. **Graph Structure** The graph constructed through reading datas in of SF.cedge and SF.cnode into 7 vectors of integers labeled nodeID, xLocs, yLocs, edgeIDs, edgeLength, startNode, and endNode. nodeID, xLocs, yLocs store informations about nodes and edgeIDs, edgeLength, startNode, endNode store information about the edges. A 2D vector called adjacencyList is created and has nodeID.size() number of empty vectors pushed into it. An iteration is performed on edgeIDs, startNode,and endNode so that the id of an edge is pushed onto adjacencyList[ startNode[ id ] ] and adjacencyList[ endNode[ id ] ], turning adjacencyList into an adjacency list for all the edges in the graph. This adjacency list is used to create the incidentEdges function that return all incident edges of a node, the getAdjacentNodes function that get all nodes adjacent to a node, and areAdjecent function that check if two nodes are adjacent to each other. No special discovery was made for this part of the project.
 
