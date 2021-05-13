@@ -1,28 +1,10 @@
 # Project Proposal
 
-1. **Leading Question** Given two trafic intersections in San Francisco, this project seek to find the shortest route between them via driving. Then we would like to display a map of California with the two intersections connected via the shortest route.
+1. **Graph Structure** The graph constructed through reading datas in of SF.cedge and SF.cnode into 7 vectors of integers labeled nodeID, xLocs, yLocs, edgeIDs, edgeLength, startNode, and endNode. nodeID, xLocs, yLocs store informations about nodes and edgeIDs, edgeLength, startNode, endNode store information about the edges. A 2D vector called adjacencyList is created and has nodeID.size() number of empty vectors pushed into it. An iteration is performed on edgeIDs, startNode,and endNode so that the id of an edge is pushed onto adjacencyList[ startNode[ id ] ] and adjacencyList[ endNode[ id ] ], turning adjacencyList into an adjacency list for all the edges in the graph. This adjacency list is used to create the incidentEdges function that return all incident edges of a node, the getAdjacentNodes function that get all nodes adjacent to a node, and areAdjecent function that check if two nodes are adjacent to each other. No special discovery was made for this part of the project.
 
-2. **Dataset Acquistion and processing** We propose to use data sets of San Francisco road network found in Real Datasets for Spatial Databases: Road Network and Points of Interest(https://www.cs.utah.edu/~lifeifei/SpatialDataset.htm) for this project. Dataset will be in .txt file that contain all nodes or edges between trafic intersections. We will load the edges data into two vectors, one contain the node's ID at the start of each edge; the other contain the node's ID at the end of each edge. For our graph structure, we propose that a node's ID is the FromNodID in the dataset; its location is its given normalized x-y location found in the node dataset and a edge exist between it and another node if the edge dataset contain a edge between their IDs. The weight of a edge will be based on its L2 distance found in the edge dataset.
+2. **DFS Traversal Through Iterator** Our DFS iterator contain two constructors, the ++, * and != operations. A DFS iterator is created with the id of a starting node and pointer to a graph. Its constructor establish the needed arrays and variables needed to keep track of visited node and edges, the current node, and the map of discovery and back edges.It keep a Everytime operator++ is called, if the current stack is not empty, a pop is performed on the stack. Then all the edges adjecent to the current is found using the incidentEdges function of the graph. For each incident edges, the node connected to the current is identified; if the node was not previously visited, it is now considered visited and pushed onto the stack; the edge is considered a discovery edge and pushed into the respective vector. Otherwise the edge is considered a back edge and pushed into the respective vector. After the iterator went through every node of the graph, a map of discovery and back edges can be found in discoveryEdges and backEdges. The != operator simply check if the iterator reach the end of the graph. When working on the DFS iterator, I discovered that my implemetation of DFS traversal is different than the one presented in the lecture. Instead of an recursive approach, I ensure the depth first aspect of the traversal through using a stack. This implemetation does cause changes to the order in which the nodes are visited compare to the functions used in lecture.
 
-3. **Graph Algorithms** For our graph traversal, we plan on implementing a DFS iterator. Its constructor should take the root node's ID as input and everytime operator++ is called, the iterator should move to the next node until there is no node left to traverse. 
-For one of our algorism, we will implement a Dijikstra's algorism that take the IDs of the two intersections as inputs and return the shortest route between them as output. 
-For our final algorism, we will attempt to project the shortest route between two intersections onto a map. However, the dataset we are working with lack reference to what each nodes refer to in term of real world location, so projecting the route onto a real world map may not be possible. If we are unable to find a reference between the nodes in the dataset and real world location, we will attempt to construct our own visual graph based on the node informations and project the shortest route onto this graph.
+3. **Dijikstra's Algorithm** Our Dijikstra's Algorithm is completed under a piority queue implemetation. A structure called Node is created in our dijikstra's algorithm that 
 
-4. **Timeline**
-April 12: set up MakeFile
-
-April 15: read the dataset into vectors and set up test cases to check the accuracy of the vector.
-
-April 20: convert vectors into graph format and pass simple tests.
-
-April 23: write DFS iterator and varify with test.
-
-April 30: write Dijikstra's algorism and varify with test. Write code for visual graph if necessary.
-
-May 5: write projection algorism and varify with test.
-
-May 8: finish report
-
-May 9: Meet to record final presentation
-
-May 11: Turn in project. 
+4. **Graphical Representation**
+ 
