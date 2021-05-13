@@ -7,4 +7,4 @@ EXE_OBJ = main.o
 OBJS = main.o graph.o dijkstra.o
 
 # Use the makefile template:
-include tests/make/project.mk
+include cs225/make/project.mk

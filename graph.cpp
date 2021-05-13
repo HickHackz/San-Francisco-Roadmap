@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include "graph.h"
+#include "cs225/PNG.h"
+#include <math.h>
+#include "dijkstra.h"
 graph::Iterator::Iterator() {
     g = NULL;
 }
@@ -265,4 +268,102 @@ double graph::getEdge(int source, int destination) const
         }
     }
     return 0;
+}
+void setBlue (cs225::HSLAPixel& pixel) {
+        pixel.a = 1;
+        pixel.h = 235;
+        pixel.l = .5;
+        pixel.s = 1;
+    }
+void setRed (cs225::HSLAPixel& pixel) {
+        pixel.a = 1;
+        pixel.h = 0;
+        pixel.l = .5;
+        pixel.s = 1;
+    }
+void graph::printGraph(double tolerance, bool withSol, int src, int dst) {
+    
+    unsigned int sWidth = 10000;
+    unsigned int lWidth = 0;
+    unsigned int sHeight = 10000;
+    unsigned int lHeight = 0;
+   for (unsigned i = 0; i < xLocs.size(); i++){ //finding max height and width
+        if (xLocs[i] > lWidth) lWidth = (unsigned int)xLocs[i]; 
+        if (xLocs[i] < sWidth) sWidth = (unsigned int)xLocs[i];
+        if (yLocs[i] > lHeight) lHeight = (unsigned int)yLocs[i];
+        if (yLocs[i] < sHeight) sHeight = (unsigned int)yLocs[i];
+    }
+    cs225::PNG map(lWidth, lHeight); //base PNG
+    for (unsigned i = 0; i < edgeIDs.size(); i++) {
+        double width = xLocs[endNode[i]] - xLocs[startNode[i]];
+        double height = yLocs[endNode[i]] - yLocs[startNode[i]]; //coordinates for sub plot to proccess edge
+        int xincrement, yincrement;
+        if (width < 0) xincrement = -1;
+        else xincrement = 1;
+        if (height < 0) yincrement = -1;
+        else yincrement = 1;
+        double slope = tan(height/width);
+        double cslope; //calculating slopes of points to see if they fall on the edge.
+        for (int j = (int)xLocs[startNode[i]]; j != (int)xLocs[endNode[i]]; j += xincrement){
+            for (int k = (int)yLocs[startNode[i]]; k!= (int)yLocs[endNode[i]]; k += yincrement) {
+                cslope = (k - yLocs[startNode[i]]) / (j - xLocs[startNode[i]]);
+                if (cslope >= (slope - tolerance * 1 / edgeLength[i]) && cslope <= (slope + tolerance * 1 /edgeLength[i])){
+                    cs225::HSLAPixel& pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                    pixel.a = 1;
+                    pixel.h = 0;
+                    pixel.l = 0;
+                    pixel.s = 0;
+                }
+            }
+        }
+    }
+    for (unsigned l = 0; l < nodeID.size(); l++) { //plotting nodes
+        cs225::HSLAPixel& pixel1 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]);
+        setRed(pixel1);
+    if (l < lWidth - 1) {    
+        cs225::HSLAPixel& pixel2 = map.getPixel((unsigned int)xLocs[(size_t)l]+1, (unsigned int)yLocs[(size_t)l]);
+        setRed(pixel2);}
+    if (l < lHeight - 1){
+        cs225::HSLAPixel& pixel4 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]+1);
+        setRed(pixel4);
+    }
+    if (l > 0) {
+        cs225::HSLAPixel& pixel3 = map.getPixel((unsigned int)xLocs[(size_t)l]-1, (unsigned int)yLocs[(size_t)l]);
+        setRed(pixel3);
+        cs225::HSLAPixel& pixel5 = map.getPixel((unsigned int)xLocs[(size_t)l], (unsigned int)yLocs[(size_t)l]-1);
+        setRed(pixel5);
+    }
+    }
+    std::cout << "Before path" << std::endl;
+    if (withSol) { //printing desired route
+        dijkstra route;
+        std::vector<int> path = route.dijkstraPath(*this, src, dst);
+        std::cout << path.size() << std::endl;
+        for (unsigned i = 0; i < path.size(); i++) {
+            double width = xLocs[endNode[path[i]]] - xLocs[startNode[path[i]]];
+            double height = yLocs[endNode[path[i]]] - yLocs[startNode[path[i]]];
+            int xincrement, yincrement;
+            if (width < 0) xincrement = -1;
+            else xincrement = 1;
+            if (height < 0) yincrement = -1;
+            else yincrement = 1;
+            double slope = tan(height/width);
+            double cslope; //calculating slopes of points to see if they fall on the edge.
+            for (int j = (int)xLocs[startNode[path[i]]]; j != (int)xLocs[endNode[path[i]]]; j += xincrement){
+                for (int k = (int)yLocs[startNode[path[i]]]; k!= (int)yLocs[endNode[path[i]]]; k += yincrement) {
+                    cslope = (k - yLocs[startNode[path[i]]]) / (j - xLocs[startNode[path[i]]]);
+                    if (cslope >= (slope - tolerance * .5 / edgeLength[path[i]]) && cslope <= (slope + tolerance * .5 /edgeLength[path[i]])){
+                        cs225::HSLAPixel& pixel = map.getPixel((unsigned int)j, (unsigned int)k);
+                        setBlue(pixel);
+                    }
+                }
+            }
+        }
+        std::cout << "After path" << std::endl;
+        
+    }
+    
+    map.writeToFile("myMap.png");
+    return;
+
 }

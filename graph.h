@@ -31,6 +31,7 @@ class graph {
         std::vector<int> getAdjacentNodes(int source) const;
         double getEdge(int source, int destination) const;
         double getEdgeWeight(int source, int destination) const;
+        void printGraph(double tolerance, bool withSol, int src, int dst);
         class Iterator : std::iterator<std::forward_iterator_tag, int> {
             public:
             Iterator();

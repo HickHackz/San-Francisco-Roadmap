@@ -48,17 +48,7 @@ int main()
     std::cout << "The number of edges are " << SF.edgeIDs.size() << std::endl;
     std::cout << "The number of nodes are " << SF.nodeID.size() << std::endl;
     std::cout << "The number of back edges are " << I.backEdges.size() << std::endl;
-    std::vector<int> nodes;
-    for (int i : first) {
-        if (SF.startNode[i] != 0) {
-            nodes.push_back(SF.startNode[i]);
-        }
-        else {
-            nodes.push_back(SF.endNode[i]);
-        }
-    }
-    for (int i : nodes) {
-        std::cout << "nodes next to 0 include " << i << std::endl;
-    }
+
+    SF.printGraph(10, true, 50, 1200);
     return 0;
 }
