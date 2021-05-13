@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include "graph.h"
-#include "edge.h"
 graph::Iterator::Iterator() {
     g = NULL;
 }
@@ -207,11 +206,12 @@ graph::graph(const std::string nodeInfo, const std::string edgeInfo) {
         adjacencyList[startNode[j]].push_back(j);
         adjacencyList[endNode[j]].push_back(j);
     }
-
 }
-std::vector<int> graph::incidentEdges(int c) {
+
+std::vector<int> graph::incidentEdges(int c) const {
     return adjacencyList[c];
 }
+
 bool graph::areAdjecent(int c1, int c2) {
     std::vector<int> edges = incidentEdges(c1);
     for (int i : edges) {
@@ -222,58 +222,47 @@ bool graph::areAdjecent(int c1, int c2) {
     return false;
 }
 
-// std::vector<std::string> graph::getVertices() const
-// {
-//  std::vector<std::string> vertices;
+std::vector<int> graph::getVertices() const
+{
+ return nodeID;
+}
 
-//  for(auto it = adjacency.begin(); it != adjacency.end(); it++)
-//  {
-//     vertices.push_back(it->first);
-//  }
+std::vector<int> graph::getAdjacentNodes(int source) const 
+{
+    std::vector<int> node;
+    for (int i : adjacencyList[source])
+    {
+        if (startNode[i] != source)  
+        {
+            node.push_back(startNode[i]);
+        }
+        else {
+            node.push_back(endNode[i]);
+        }
+            
+    }
+    return node;
+}
 
-//  return vertices;
-// }
+double graph::getEdgeWeight(int source, int destination) const
+{
+    for (int i : startNode) {
+        if (startNode[i] == source && endNode[i] == destination)
+        {
+            return edgeLength[i];
+        }
+        
+    }
+    return 0;
+}
 
-// void graph::addVertex(std::string v)
-// {
-//     adjacency[v] = unordered_map<std::string, std::string>();
-// }
-
-// void graph::addEdge(std::string start, std::string end)
-// {
-//     if(adjacency.find(start) != adjacency.end() && adjacency[start].find(end)!= adjacency[start].end())
-//     {
-//         return;
-//     }
-
-//     if(adjacency.find(start) == adjacency.end())
-//     {
-//         adjacency[start] = unordered_map<std::string, std::string>();
-//     }
-
-//     adjacency[start][end] = edge(start, end);
-//     if(adjacency.find(end)== adjacency.end())
-//     {
-//         adjacency[end] = unordered_map<std::string, std::string>();
-//     }
-// }
-
-// edge graph::setEdgeWeightAndId(std::string start, std::string end, double weight, std::string id)
-// {
-//     edge e = adjacency[start][end];
-//     edge ret(start, end, weight, id);
-//     adjacency[start][end] = ret;
-//     return ret;
-// }
-
-// double Graph::getEdgeWeight(std::string start, std::string end) const
-// {
-//     return adjacency[start][end].getWeight();
-// }
-
-// edge graph::getEdgeId(std::string start , std::string end) const
-// {
-//     Edge e = adjacency[source][destination].getId();
-//     return e;
-// }
-
+double graph::getEdge(int source, int destination) const
+{
+    std::vector<int> edges = incidentEdges(source);
+    for (int i : edges) {
+        if (startNode[i] == destination || endNode[i] == destination) {
+            return i;
+        }
+    }
+    return 0;
+}

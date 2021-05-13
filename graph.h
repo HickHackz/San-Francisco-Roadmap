@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -7,7 +8,6 @@
 #include <stack>
 #include <unordered_map>
 #include <iterator>
-#include "edge.h"
 
 class graph {
     private:
@@ -24,15 +24,13 @@ class graph {
         std::string file_to_string(const std::string & filename);
         std::vector<std::string> file_to_vector(const std::string & filename);
         graph(const std::string nodeInfo, const std::string edgeInfo);
-        std::vector<int> incidentEdges(int Vertex);
+        std::vector<int> incidentEdges(int Vertex) const;
         bool areAdjecent(int Vertex1, int Vertex2);
         mutable std::unordered_map<std::string, std::unordered_map<std::string, std::string>> adjacency;
-        // std::vector<std::string> getVertices() const;
-        // void addVertex(std::string v);
-        // void addEdge(std::string start, std::string end);
-        // edge setEdgeWeightandId(std::string start, std::string end, double weight, std::string id);
-        // double getEdgeWeight(std::string start, std::string end) const;
-        // double getEdgeId(std::string start, std::string end) const;
+        std::vector<int> getVertices() const;
+        std::vector<int> getAdjacentNodes(int source) const;
+        double getEdge(int source, int destination) const;
+        double getEdgeWeight(int source, int destination) const;
         class Iterator : std::iterator<std::forward_iterator_tag, int> {
             public:
             Iterator();

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "graph.h"
+#include "dijkstra.h"
 #include "cs225/PNG.h"
 #include <string>
 #include <iterator>
@@ -11,12 +12,17 @@ int main()
     // Write your own main here
     cout << "Add your own tests here! Modify main.cpp" << endl;
     graph SF("SF.cnode", "SF.cedge");
+    dijkstra Dijkstra;
+    vector<int> edges = Dijkstra.dijkstraPath(SF, 0, 20);  //returns shortest path of edges from two nodeIDs
     graph::Iterator I = SF.begin();
     std::vector<int> v;
     while (I != SF.end()) {
          v.push_back(*I);
          //std::cout << "The current node is " << *I << std::endl;
          ++I;
+    }
+    for (int i : edges) {
+        std::cout << "The shortest path from node 0 to 6 include " << i << std::endl;
     }
     // for (int i : SF.nodeID) {
     //     bool notIn = true;
